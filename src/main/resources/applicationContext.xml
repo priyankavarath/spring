@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    <!-- load the properties file-->
+   <context:property-placeholder location="classpath:sports.properties" />
+
+    <bean id="myFortune" class="com.springexample.springDemo.FortuneService">
+    </bean>
+    <!-- Constructor injection-->
+    <bean id="myCoach" class="com.springexample.springDemo.BaseballCoach">
+        <constructor-arg ref="myFortune"/>
+    </bean>
+
+    <bean id="tennisCoach" class="com.springexample.springDemo.TennisCoach" scope="prototype" init-method="doMyStartup" destroy-method="doMyEndStuff">
+        <!--Setter injection-->
+        <property name="fortuneService" ref="myFortune"/>
+
+        <!--inject literal values-->
+        <property name="email" value="${ten.email}" />
+        <property name="team" value="${ten.team}"/>
+       <!-- <property name="email" value="myemailid@sportsacademy.com"/>
+        <property name="team" value="Brave kings"/>-->
+    </bean>
+</beans>
